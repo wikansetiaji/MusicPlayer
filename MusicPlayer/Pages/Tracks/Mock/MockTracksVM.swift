@@ -9,7 +9,6 @@ import Foundation
 import AVKit
 
 class MockTracksVM: TracksVMProtocol {
-  
   @Published var tracks: [Track] = []
   @Published var offset: Int = 0
   @Published var query: String = ""
@@ -20,6 +19,7 @@ class MockTracksVM: TracksVMProtocol {
   var currentTime: Double = 0
   var isPlaying: Bool = false
   var currentTrack: Track?
+  var trackQueue: [Track] = []
   
   var totalCount: Int = 0
   var canLoadMore: Bool = false
@@ -77,6 +77,10 @@ class MockTracksVM: TracksVMProtocol {
   func getTracks() { }
   
   func loadNextPage() { }
+  
+  func selectTrack(track: Track) { }
+  
+  func addToPlayNext(track: Track) { }
   
   func playPauseTrack() { }
   

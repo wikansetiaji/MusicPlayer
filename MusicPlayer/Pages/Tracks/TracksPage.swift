@@ -24,10 +24,12 @@ struct TracksPage<Model>: View where Model: TracksVMProtocol {
           }
           
           ForEach(self.viewModel.tracks) { track in
-            TrackCell(track: track, isPlaying: Binding(get: { self.viewModel.currentTrack == track }, set: { _ in }))
+            TrackCell(track: track, isPlaying: Binding(get: { self.viewModel.currentTrack == track }, set: { _ in }), onPlayNextCommand: {
+              self.viewModel.addToPlayNext(track: track)
+            })
               .contentShape(Rectangle())
               .onTapGesture {
-                self.viewModel.currentTrack = track
+                self.viewModel.selectTrack(track: track)
               }
             Divider()
           }

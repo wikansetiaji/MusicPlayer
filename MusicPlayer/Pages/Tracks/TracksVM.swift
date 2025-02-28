@@ -21,9 +21,14 @@ protocol TracksVMProtocol: ObservableObject {
   var error: APIError? { get set }
   var totalCount: Int { get }
   var canLoadMore: Bool { get }
+  var trackQueue: [Track] { get set }
+  
   init(repository: MusicRepositoryProtocol)
+  
   func getTracks()
   func loadNextPage()
+  func selectTrack(track: Track)
+  func addToPlayNext(track: Track)
   func playPauseTrack()
   func nextTrack()
   func previousTrack()
@@ -45,6 +50,16 @@ class TracksVM: TracksVMProtocol {
   
   var player: AVPlayer?
   var timer: Timer?
+  var trackQueue: [Track] = []
+  var currentTrackIndex: Int = 0
+  
+  var isHaveNextTrack: Bool {
+    return self.currentTrackIndex + 1 < self.trackQueue.count
+  }
+  
+  var isHavePreviousTrack: Bool {
+    return self.currentTrackIndex - 1 >= 0
+  }
   
   var totalCount: Int = 0
   var canLoadMore: Bool {
@@ -94,6 +109,19 @@ class TracksVM: TracksVMProtocol {
     self.offset = self.tracks.count
   }
   
+  func selectTrack(track: Track) {
+    self.currentTrack = track
+    
+    if let currentTrack, let currentTrackIndex = self.tracks.firstIndex(of: currentTrack) {
+      self.trackQueue = Array(self.tracks.suffix(from: currentTrackIndex))
+      self.currentTrackIndex = 0
+    }
+  }
+  
+  func addToPlayNext(track: Track) {
+    self.trackQueue.insert(track, at: self.currentTrackIndex + 1)
+  }
+  
   func playPauseTrack() {
     if self.player?.rate ?? 0 > 0 {
       self.player?.pause()
@@ -116,11 +144,19 @@ class TracksVM: TracksVMProtocol {
   }
   
   func nextTrack() {
-    
+    if self.isHaveNextTrack {
+      self.currentTrackIndex += 1
+      self.currentTrack = self.trackQueue[self.currentTrackIndex]
+    }
   }
   
   func previousTrack() {
-    
+    if self.isHavePreviousTrack {
+      self.currentTrackIndex -= 1
+      self.currentTrack = self.trackQueue[self.currentTrackIndex]
+    } else {
+      self.seek(to: CMTime(seconds: 0, preferredTimescale: 1))
+    }
   }
   
   func seek(to time: CMTime) {
@@ -128,10 +164,13 @@ class TracksVM: TracksVMProtocol {
   }
   
   func finishTrack() {
-    self.isPlaying = false
-    self.player?.seek(to: CMTime(seconds: 0, preferredTimescale: 1))
-    self.player?.pause()
-
+    if self.isHaveNextTrack {
+      self.nextTrack()
+    } else {
+      self.isPlaying = false
+      self.player?.seek(to: CMTime(seconds: 0, preferredTimescale: 1))
+      self.player?.pause()
+    }
   }
   
   private func setupSubscribings() {

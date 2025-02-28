@@ -11,6 +11,8 @@ struct TrackCell: View {
   @State var track: Track
   @Binding var isPlaying: Bool
   
+  var onPlayNextCommand: (() -> Void)?
+  
   var body: some View {
     HStack(spacing: 15) {
       AsyncImage(url: URL(string: track.image)) { image in
@@ -37,15 +39,9 @@ struct TrackCell: View {
       
       Menu {
         Button(action: {
-          print("Play Next tapped")
+          self.onPlayNextCommand?()
         }) {
           Label("Play Next", systemImage: "text.line.first.and.arrowtriangle.forward")
-        }
-        
-        Button(action: {
-          print("Add to Queue tapped")
-        }) {
-          Label("Add to Queue", systemImage: "text.badge.plus")
         }
       } label: {
           Image(systemName: "ellipsis.circle")
