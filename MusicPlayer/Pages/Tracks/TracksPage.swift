@@ -47,6 +47,17 @@ struct TracksPage<Model>: View where Model: TracksVMProtocol {
         }
         .padding()
       }
+      .alert(
+        "Oops, error occured:\n" + (self.viewModel.error?.message ?? "Error"),
+        isPresented: Binding(
+          get: { return self.viewModel.error != nil },
+          set: { _ in  }
+        )) {
+          Button("Try Again", role: .cancel) {
+            self.viewModel.query = ""
+            self.viewModel.error = nil
+          }
+        }
       .overlay(content: {
         if self.viewModel.currentTrack != nil {
           TrackPlayer(
