@@ -13,8 +13,11 @@ struct Track: Codable, Identifiable {
   var duration: Int
   var artistName: String
   var albumName: String
-  var image: String
+  var albumId: String
   var audio: String
+  var image: String {
+    "https://usercontent.jamendo.com?type=album&id=\(albumId)&width=50&trackid=\(id)"
+  }
   
   enum CodingKeys: String, CodingKey {
     case id
@@ -22,7 +25,7 @@ struct Track: Codable, Identifiable {
     case duration
     case artistName = "artist_name"
     case albumName = "album_name"
-    case image
+    case albumId = "album_id"
     case audio
   }
 }

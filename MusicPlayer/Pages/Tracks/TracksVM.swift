@@ -10,11 +10,13 @@ import Combine
 
 protocol TracksVMProtocol: ObservableObject {
   var tracks: [Track] { get set }
-  var currentPage: Int { get set }
+  var offset: Int { get set }
   var query: String { get set }
   var isLoading: Bool { get set }
-  var isLoadingNextPage: Bool { get set }
+  var isLoadingNextPage: Bool { get }
   var error: APIError? { get set }
+  var totalCount: Int { get }
+  var canLoadMore: Bool { get }
   init(repository: MusicRepositoryProtocol)
   func getTracks()
   func loadNextPage()
@@ -24,9 +26,15 @@ class TracksVM: TracksVMProtocol {
   @Published var tracks: [Track] = []
   @Published var isLoading: Bool = false
   @Published var isLoadingNextPage: Bool = false
-  @Published var currentPage: Int = 0
+  @Published var offset: Int = 0
   @Published var query: String = ""
   @Published var error: APIError?
+  
+  var totalCount: Int = 0
+  var canLoadMore: Bool {
+    self.tracks.count < self.totalCount
+  }
+  
   private var cancellables: Set<AnyCancellable> = []
   private let repository: MusicRepositoryProtocol
   
@@ -36,12 +44,12 @@ class TracksVM: TracksVMProtocol {
   }
   
   func getTracks() {
-    if self.currentPage > 0 {
+    if self.offset > 0 {
       self.isLoadingNextPage = true
     } else {
       self.isLoading = true
     }
-    self.repository.getTracks(query: self.query, page: self.currentPage)
+    self.repository.getTracks(query: self.query, offset: self.tracks.count)
       .receive(on: DispatchQueue.main)
       .sink { [weak self] value in
         switch value {
@@ -56,24 +64,29 @@ class TracksVM: TracksVMProtocol {
       } receiveValue: { [weak self] tracksResponse in
         self?.isLoading = false
         self?.isLoadingNextPage = false
-        self?.tracks = tracksResponse.results
+        if self?.offset == 0 {
+          self?.tracks = tracksResponse.results
+        } else {
+          self?.tracks.append(contentsOf: tracksResponse.results)
+        }
+        self?.totalCount = tracksResponse.headers.totalCount
       }
       .store(in: &cancellables)
   }
   
   func loadNextPage() {
-    self.currentPage += 1
+    self.offset = self.tracks.count
   }
   
   private func setupSubscribings() {
     self.$query
       .debounce(for: .seconds(0.5), scheduler: RunLoop.main) // Adjust the delay as needed
       .sink { [weak self] _ in
-        self?.currentPage = 0
+        self?.offset = 0
       }
       .store(in: &cancellables)
     
-    self.$currentPage
+    self.$offset
       .sink { [weak self] _ in
         self?.getTracks()
       }

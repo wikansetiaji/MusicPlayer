@@ -16,17 +16,37 @@ struct TracksPage<Model>: View where Model: TracksVMProtocol {
   
   var body: some View {
     NavigationView {
-      List {
-        ForEach(viewModel.tracks) { track in
-          Text("\(track.artistName) \(track.name)")
+      ScrollView {
+        LazyVStack(spacing: 10) {
+          if self.viewModel.isLoading {
+            ProgressView()
+          }
+          
+          ForEach(self.viewModel.tracks) { track in
+            TrackCell(track: track)
+            Divider()
+          }
+          
+          if self.viewModel.canLoadMore {
+            ProgressView()
+              .task {
+                self.viewModel.loadNextPage()
+              }
+          }
         }
+        .padding()
       }
       .navigationTitle("Music Player")
       .navigationBarTitleDisplayMode(.automatic)
       .searchable(text: $viewModel.query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search music")
     }
+    .tint(.orange)
     .onAppear {
       self.viewModel.getTracks()
     }
   }
+}
+
+#Preview {
+  TracksPage(viewModel: MockTracksVM(repository: MusicRepository()))
 }
