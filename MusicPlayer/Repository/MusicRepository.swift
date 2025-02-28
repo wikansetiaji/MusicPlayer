@@ -31,8 +31,9 @@ class MusicRepository: MusicRepositoryProtocol {
     components.queryItems = [
       URLQueryItem(name: "client_id", value: "8f2e21c5"),
       URLQueryItem(name: "format", value: "jsonpretty"),
-      URLQueryItem(name: "limit", value: "10"),
+      URLQueryItem(name: "limit", value: "20"),
       URLQueryItem(name: "search", value: query),
+      URLQueryItem(name: "order", value: "popularity_total"),
     ]
     return components
   }

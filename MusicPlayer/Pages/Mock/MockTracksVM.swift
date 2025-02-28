@@ -56,7 +56,7 @@ class MockTracksVM: TracksVMProtocol {
     ]
   }
   
-  func getTracks(query: String, page: Int) { }
+  func getTracks() { }
   
   func loadNextPage() { }
   

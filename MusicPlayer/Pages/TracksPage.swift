@@ -7,29 +7,26 @@
 
 import SwiftUI
 
-struct TracksPage <Model>: View where Model:TracksVMProtocol {
+struct TracksPage<Model>: View where Model: TracksVMProtocol {
   @StateObject private var viewModel: Model
-  init (viewModel: Model) {
-      _viewModel = StateObject(wrappedValue: viewModel)
+  
+  init(viewModel: Model) {
+    _viewModel = StateObject(wrappedValue: viewModel)
   }
   
   var body: some View {
     NavigationView {
-      VStack {
-        Image(systemName: "globe")
-          .imageScale(.large)
-          .foregroundStyle(.tint)
-        Text("Hello, music player!")
+      List {
         ForEach(viewModel.tracks) { track in
-          Text(track.name)
+          Text("\(track.artistName) \(track.name)")
         }
       }
-      .padding()
       .navigationTitle("Music Player")
+      .navigationBarTitleDisplayMode(.automatic)
+      .searchable(text: $viewModel.query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search music")
+    }
+    .onAppear {
+      self.viewModel.getTracks()
     }
   }
-}
-
-#Preview {
-  TracksPage(viewModel: MockTracksVM(repository: MusicRepository()))
 }

@@ -16,7 +16,7 @@ protocol TracksVMProtocol: ObservableObject {
   var isLoadingNextPage: Bool { get set }
   var error: APIError? { get set }
   init(repository: MusicRepositoryProtocol)
-  func getTracks(query: String, page: Int)
+  func getTracks()
   func loadNextPage()
 }
 
@@ -32,17 +32,16 @@ class TracksVM: TracksVMProtocol {
   
   required init(repository: MusicRepositoryProtocol) {
     self.repository = repository
+    self.setupSubscribings()
   }
   
-  func getTracks(query: String, page: Int) {
-    self.currentPage = page
-    self.query = query
-    if page > 0 {
+  func getTracks() {
+    if self.currentPage > 0 {
       self.isLoadingNextPage = true
     } else {
       self.isLoading = true
     }
-    self.repository.getTracks(query: query, page: page)
+    self.repository.getTracks(query: self.query, page: self.currentPage)
       .receive(on: DispatchQueue.main)
       .sink { [weak self] value in
         switch value {
@@ -64,6 +63,20 @@ class TracksVM: TracksVMProtocol {
   
   func loadNextPage() {
     self.currentPage += 1
-    self.getTracks(query: self.query, page: self.currentPage)
+  }
+  
+  private func setupSubscribings() {
+    self.$query
+      .debounce(for: .seconds(0.5), scheduler: RunLoop.main) // Adjust the delay as needed
+      .sink { [weak self] _ in
+        self?.currentPage = 0
+      }
+      .store(in: &cancellables)
+    
+    self.$currentPage
+      .sink { [weak self] _ in
+        self?.getTracks()
+      }
+      .store(in: &cancellables)
   }
 }
