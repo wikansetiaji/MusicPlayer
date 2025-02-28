@@ -32,7 +32,7 @@ class TracksVM: TracksVMProtocol {
   
   var totalCount: Int = 0
   var canLoadMore: Bool {
-    self.tracks.count < self.totalCount
+    self.tracks.count < self.totalCount && !self.isLoading
   }
   
   private var cancellables: Set<AnyCancellable> = []
@@ -82,6 +82,7 @@ class TracksVM: TracksVMProtocol {
     self.$query
       .debounce(for: .seconds(0.5), scheduler: RunLoop.main) // Adjust the delay as needed
       .sink { [weak self] _ in
+        self?.tracks = []
         self?.offset = 0
       }
       .store(in: &cancellables)
