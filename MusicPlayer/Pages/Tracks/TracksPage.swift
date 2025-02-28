@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct TracksPage<Model>: View where Model: TracksVMProtocol {
   @StateObject private var viewModel: Model
@@ -23,7 +24,11 @@ struct TracksPage<Model>: View where Model: TracksVMProtocol {
           }
           
           ForEach(self.viewModel.tracks) { track in
-            TrackCell(track: track)
+            TrackCell(track: track, isPlaying: Binding(get: { self.viewModel.currentTrack == track }, set: { _ in }))
+              .contentShape(Rectangle())
+              .onTapGesture {
+                self.viewModel.currentTrack = track
+              }
             Divider()
           }
           
@@ -33,9 +38,35 @@ struct TracksPage<Model>: View where Model: TracksVMProtocol {
                 self.viewModel.loadNextPage()
               }
           }
+          
+          if self.viewModel.currentTrack != nil {
+            Spacer(minLength: 120)
+          }
         }
         .padding()
       }
+      .overlay(content: {
+        if self.viewModel.currentTrack != nil {
+          TrackPlayer(
+            currentTime: $viewModel.currentTime,
+            isPlaying: $viewModel.isPlaying,
+            currentTrack: $viewModel.currentTrack,
+            onPlayPauseCommand: {
+              self.viewModel.playPauseTrack()
+            },
+            onNextCommand: {
+              self.viewModel.nextTrack()
+            },
+            onPreviousCommand: {
+              self.viewModel.previousTrack()
+            },
+            onSeek: { currentTime in
+              let time = CMTime(seconds: currentTime, preferredTimescale: 1)
+              self.viewModel.seek(to: time)
+            }
+          )
+        }
+      })
       .navigationTitle("Music Player")
       .navigationBarTitleDisplayMode(.automatic)
       .searchable(text: $viewModel.query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search music")

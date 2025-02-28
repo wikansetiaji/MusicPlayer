@@ -6,14 +6,20 @@
 //
 
 import Foundation
+import AVKit
 
 class MockTracksVM: TracksVMProtocol {
+  
   @Published var tracks: [Track] = []
   @Published var offset: Int = 0
   @Published var query: String = ""
   @Published var isLoading: Bool = false
   @Published var isLoadingNextPage: Bool = false
   @Published var error: APIError? = nil
+  
+  var currentTime: Double = 0
+  var isPlaying: Bool = false
+  var currentTrack: Track?
   
   var totalCount: Int = 0
   var canLoadMore: Bool = false
@@ -71,5 +77,15 @@ class MockTracksVM: TracksVMProtocol {
   func getTracks() { }
   
   func loadNextPage() { }
+  
+  func playPauseTrack() { }
+  
+  func nextTrack() { }
+  
+  func previousTrack() { }
+  
+  func seek(to time: CMTime) { }
+  
+  func finishTrack() { }
   
 }

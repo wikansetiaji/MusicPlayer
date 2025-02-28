@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Track: Codable, Identifiable {
+struct Track: Codable, Identifiable, Equatable {
   var id: String
   var name: String
   var duration: Int

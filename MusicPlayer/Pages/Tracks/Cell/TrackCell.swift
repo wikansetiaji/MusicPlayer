@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TrackCell: View {
   @State var track: Track
+  @Binding var isPlaying: Bool
   
   var body: some View {
     HStack(spacing: 15) {
@@ -30,7 +31,9 @@ struct TrackCell: View {
       
       Spacer()
       
-//              Image(systemName: "waveform.circle.fill")
+      if self.isPlaying {
+        Image(systemName: "waveform.circle.fill")
+      }
       
       Menu {
         Button(action: {
