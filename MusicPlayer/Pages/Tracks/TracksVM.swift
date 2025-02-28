@@ -14,16 +14,18 @@ protocol TracksVMProtocol: ObservableObject {
   var query: String { get set }
   var isLoading: Bool { get set }
   var isLoadingNextPage: Bool { get }
+  var error: APIError? { get set }
+  var canLoadMore: Bool { get }
+  
   var currentTime: Double { get set }
   var isPlaying: Bool { get set }
   var currentTrack: Track? { get set }
-  var error: APIError? { get set }
-  var canLoadMore: Bool { get }
   
   init(repository: MusicRepositoryProtocol)
   
   func getTracks()
   func loadNextPage()
+  
   func selectTrack(track: Track)
   func addToPlayNext(track: Track)
   func playPauseTrack()
@@ -34,10 +36,10 @@ protocol TracksVMProtocol: ObservableObject {
 
 class TracksVM: TracksVMProtocol {
   @Published var tracks: [Track] = []
+  @Published var query: String = ""
   @Published var isLoading: Bool = false
   @Published var isLoadingNextPage: Bool = false
   @Published var offset: Int = 0
-  @Published var query: String = ""
   @Published var error: APIError?
   
   @Published var currentTime: Double = 0
@@ -68,6 +70,31 @@ class TracksVM: TracksVMProtocol {
   required init(repository: MusicRepositoryProtocol) {
     self.repository = repository
     self.setupSubscribings()
+  }
+  
+  private func setupSubscribings() {
+    self.$query
+      .debounce(for: .seconds(0.5), scheduler: RunLoop.main) // Adjust the delay as needed
+      .sink { [weak self] _ in
+        self?.tracks = []
+        self?.offset = 0
+      }
+      .store(in: &cancellables)
+    
+    self.$offset
+      .sink { [weak self] _ in
+        self?.getTracks()
+      }
+      .store(in: &cancellables)
+    
+    self.$currentTrack
+      .sink { [weak self] track in
+        if let audio = track?.audio, let url = URL(string: audio) {
+          self?.player = AVPlayer(url: url)
+          self?.playPauseTrack()
+        }
+      }
+      .store(in: &cancellables)
   }
   
   func getTracks() {
@@ -167,30 +194,5 @@ class TracksVM: TracksVMProtocol {
       self.player?.seek(to: CMTime(seconds: 0, preferredTimescale: 1))
       self.player?.pause()
     }
-  }
-  
-  private func setupSubscribings() {
-    self.$query
-      .debounce(for: .seconds(0.5), scheduler: RunLoop.main) // Adjust the delay as needed
-      .sink { [weak self] _ in
-        self?.tracks = []
-        self?.offset = 0
-      }
-      .store(in: &cancellables)
-    
-    self.$offset
-      .sink { [weak self] _ in
-        self?.getTracks()
-      }
-      .store(in: &cancellables)
-    
-    self.$currentTrack
-      .sink { [weak self] track in
-        if let audio = track?.audio, let url = URL(string: audio) {
-          self?.player = AVPlayer(url: url)
-          self?.playPauseTrack()
-        }
-      }
-      .store(in: &cancellables)
   }
 }

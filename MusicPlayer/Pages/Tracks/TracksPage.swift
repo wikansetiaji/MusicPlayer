@@ -69,7 +69,7 @@ struct TracksPage<Model>: View where Model: TracksVMProtocol {
           )
         }
       })
-      .navigationTitle("Music Player")
+      .navigationTitle("Music Player 🎧")
       .navigationBarTitleDisplayMode(.automatic)
       .searchable(text: $viewModel.query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search music")
     }
