@@ -11,7 +11,6 @@ import AVKit
 
 protocol TracksVMProtocol: ObservableObject {
   var tracks: [Track] { get set }
-  var offset: Int { get set }
   var query: String { get set }
   var isLoading: Bool { get set }
   var isLoadingNextPage: Bool { get }
@@ -19,9 +18,7 @@ protocol TracksVMProtocol: ObservableObject {
   var isPlaying: Bool { get set }
   var currentTrack: Track? { get set }
   var error: APIError? { get set }
-  var totalCount: Int { get }
   var canLoadMore: Bool { get }
-  var trackQueue: [Track] { get set }
   
   init(repository: MusicRepositoryProtocol)
   
@@ -33,7 +30,6 @@ protocol TracksVMProtocol: ObservableObject {
   func nextTrack()
   func previousTrack()
   func seek(to time: CMTime)
-  func finishTrack()
 }
 
 class TracksVM: TracksVMProtocol {
