@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: macos-latest
+    runs-on: macos-15
 
     steps:
       - name: List available simulators
@@ -28,7 +28,7 @@ jobs:
           xcodebuild test \
             -project MusicPlayer.xcodeproj \
             -scheme MusicPlayer \
-            -destination "platform=iOS Simulator,name=iPhone 15,OS=17.4"
+            -destination "platform=iOS Simulator,name=iPhone 15"
 
       # Step 5: Build the .app for simulators
       - name: Build .app for simulator
@@ -36,7 +36,7 @@ jobs:
           xcodebuild build \
             -project MusicPlayer.xcodeproj \
             -scheme MusicPlayer \
-            -destination "platform=iOS Simulator,name=iPhone 15,OS=17.4" \
+            -destination "platform=iOS Simulator,name=iPhone 15" \
             -derivedDataPath Build
 
       # Step 6: Archive the .app as an artifact
