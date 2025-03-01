@@ -8,11 +8,13 @@
 import SwiftUI
 import AVKit
 
-struct TracksPage<Model>: View where Model: TracksVMProtocol {
+struct TracksPage<Model, PlayerTool>: View where Model: TracksVMProtocol, PlayerTool: TrackPlayerProtocol {
   @StateObject private var viewModel: Model
+  @StateObject private var trackPlayer: PlayerTool
   
-  init(viewModel: Model) {
+  init(viewModel: Model, trackPlayer: PlayerTool) {
     _viewModel = StateObject(wrappedValue: viewModel)
+    _trackPlayer = StateObject(wrappedValue: trackPlayer)
   }
   
   var body: some View {
@@ -24,13 +26,22 @@ struct TracksPage<Model>: View where Model: TracksVMProtocol {
           }
           
           ForEach(self.viewModel.tracks) { track in
-            TrackCell(track: track, isPlaying: Binding(get: { self.viewModel.currentTrack == track }, set: { _ in }), onPlayNextCommand: {
-              self.viewModel.addToPlayNext(track: track)
-            })
-              .contentShape(Rectangle())
-              .onTapGesture {
-                self.viewModel.selectTrack(track: track)
+            TrackCell(
+              track: track,
+              isPlaying: Binding(
+                get: { self.trackPlayer.currentTrack == track },
+                set: { _ in }),
+              onPlayNextCommand: {
+                self.trackPlayer.addToPlayNext(track: track)
               }
+            )
+            .contentShape(Rectangle())
+            .onTapGesture {
+              self.trackPlayer.selectTrack(
+                track: track,
+                tracks: self.viewModel.tracks
+              )
+            }
             Divider()
           }
           
@@ -41,7 +52,7 @@ struct TracksPage<Model>: View where Model: TracksVMProtocol {
               }
           }
           
-          if self.viewModel.currentTrack != nil {
+          if self.trackPlayer.currentTrack != nil {
             Spacer(minLength: 120)
           }
         }
@@ -59,25 +70,8 @@ struct TracksPage<Model>: View where Model: TracksVMProtocol {
           }
         }
       .overlay(content: {
-        if self.viewModel.currentTrack != nil {
-          TrackPlayer(
-            currentTime: $viewModel.currentTime,
-            isPlaying: $viewModel.isPlaying,
-            currentTrack: $viewModel.currentTrack,
-            onPlayPauseCommand: {
-              self.viewModel.playPauseTrack()
-            },
-            onNextCommand: {
-              self.viewModel.nextTrack()
-            },
-            onPreviousCommand: {
-              self.viewModel.previousTrack()
-            },
-            onSeek: { currentTime in
-              let time = CMTime(seconds: currentTime, preferredTimescale: 1)
-              self.viewModel.seek(to: time)
-            }
-          )
+        if self.trackPlayer.currentTrack != nil {
+          TrackPlayerView(trackPlayer: TrackPlayer.shared)
         }
       })
       .navigationTitle("Music Player 🎧")
@@ -92,5 +86,5 @@ struct TracksPage<Model>: View where Model: TracksVMProtocol {
 }
 
 #Preview {
-  TracksPage(viewModel: MockTracksVM(repository: MusicRepository()))
+  TracksPage(viewModel: MockTracksVM(repository: MusicRepository()), trackPlayer: TrackPlayer.shared)
 }

@@ -12,7 +12,7 @@ import AVKit
 struct MusicPlayerApp: App {
   var body: some Scene {
     WindowGroup {
-      TracksPage(viewModel: TracksVM(repository: MusicRepository()))
+      TracksPage(viewModel: TracksVM(repository: MusicRepository()), trackPlayer: TrackPlayer.shared)
         .onAppear {
           do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)

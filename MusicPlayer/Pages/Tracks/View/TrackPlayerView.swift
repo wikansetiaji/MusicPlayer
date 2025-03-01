@@ -6,19 +6,17 @@
 //
 
 import SwiftUI
+import AVKit
 
-struct TrackPlayer: View {
-  @Binding var currentTime: Double
-  @Binding var isPlaying: Bool
-  @Binding var currentTrack: Track?
+struct TrackPlayerView<PlayerTool>: View where PlayerTool: TrackPlayerProtocol {
+  @StateObject private var trackPlayer: PlayerTool
   
-  var onPlayPauseCommand: (() -> Void)?
-  var onNextCommand: (() -> Void)?
-  var onPreviousCommand: (() -> Void)?
-  var onSeek: ((Double) -> Void)?
+  init(trackPlayer: PlayerTool) {
+    _trackPlayer = StateObject(wrappedValue: trackPlayer)
+  }
   
   var body: some View {
-    if let currentTrack {
+    if let currentTrack = self.trackPlayer.currentTrack {
       VStack {
         Spacer()
         VStack {
@@ -42,16 +40,16 @@ struct TrackPlayer: View {
             Spacer()
             
             Button(action: {
-              self.onPreviousCommand?()
+              self.trackPlayer.previousTrack()
             }) {
               Image(systemName: "backward.fill")
                 .font(.title2)
             }
             
             Button(action: {
-              self.onPlayPauseCommand?()
+              self.trackPlayer.playPauseTrack()
             }) {
-              if self.isPlaying {
+              if self.trackPlayer.isPlaying {
                 Image(systemName: "pause.fill")
                   .font(.title2)
               } else {
@@ -61,15 +59,15 @@ struct TrackPlayer: View {
             }
             
             Button(action: {
-              self.onNextCommand?()
+              self.trackPlayer.nextTrack()
             }) {
               Image(systemName: "forward.fill")
                 .font(.title2)
             }
           }
           
-          MusicSlider(value: $currentTime, maximumValue: Double(currentTrack.duration), onSeek: {
-            self.onSeek?($0)
+          MusicSlider(value: self.$trackPlayer.currentTime, maximumValue: Double(currentTrack.duration), onSeek: {
+            self.trackPlayer.seek(to: CMTime(seconds: $0, preferredTimescale: 1))
           })
         }
         .padding(15)
