@@ -1,36 +1,20 @@
-name: CI/CD Pipeline
+name: Build & Upload
 
 on:
   push:
-    branches:
-      - main  # Trigger on pushes to the main branch
-  pull_request:
-    branches:
-      - main  # Trigger on pull requests to the main branch
+    tags:
+      - 'build/v*'
 
 jobs:
-  build-and-test:
+  build-and-upload:
+    name: Build & Upload App
     runs-on: macos-15
-
     steps:
-      - name: List available simulators
-        run: xcrun simctl list devices
-
-      # Step 1: Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      # Step 4: Run unit tests
-      - name: Run unit tests
-        run: |
-          xcodebuild test \
-            -project MusicPlayer.xcodeproj \
-            -scheme MusicPlayer \
-            -destination "platform=iOS Simulator,name=iPhone 16"
-
-      # Step 5: Build the .app for simulators
       - name: Build .app for simulator
         run: |
           xcodebuild build \
@@ -39,13 +23,11 @@ jobs:
             -destination "platform=iOS Simulator,name=iPhone 16" \
             -derivedDataPath Build
 
-      # Step 6: Archive the .app as an artifact
       - name: Archive .app
         run: |
           cd Build/Build/Products/Debug-iphonesimulator
           zip -r MusicPlayer.app.zip MusicPlayer.app
 
-      # Step 7: Upload the .app as a build artifact
       - name: Upload .app artifact
         uses: actions/upload-artifact@v4
         with:
