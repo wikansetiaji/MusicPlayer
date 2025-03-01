@@ -46,7 +46,7 @@ jobs:
 
       # Step 6: Upload the .app as a build artifact
       - name: Upload .app artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: MusicPlayer-Simulator
           path: Build/Build/Products/Debug-iphonesimulator/MusicPlayer.app.zip
