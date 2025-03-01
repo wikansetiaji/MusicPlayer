@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
@@ -22,16 +22,8 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		7A6020672D71EDBC004E54A4 /* MusicPlayer */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MusicPlayer;
-			sourceTree = "<group>";
-		};
-		7A6020792D71EDBD004E54A4 /* MusicPlayerTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MusicPlayerTests;
-			sourceTree = "<group>";
-		};
+		7A6020672D71EDBC004E54A4 /* MusicPlayer */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MusicPlayer; sourceTree = "<group>"; };
+		7A6020792D71EDBD004E54A4 /* MusicPlayerTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MusicPlayerTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +130,7 @@
 				};
 			};
 			buildConfigurationList = 7A6020602D71EDBC004E54A4 /* Build configuration list for PBXProject "MusicPlayer" */;
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -146,7 +139,6 @@
 			);
 			mainGroup = 7A60205C2D71EDBC004E54A4;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			productRefGroup = 7A6020662D71EDBC004E54A4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
