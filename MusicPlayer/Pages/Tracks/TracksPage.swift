@@ -82,7 +82,7 @@ struct TracksPage<Model>: View where Model: TracksVMProtocol {
       })
       .navigationTitle("Music Player 🎧")
       .navigationBarTitleDisplayMode(.automatic)
-      .searchable(text: $viewModel.query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search music")
+      .searchable(text: $viewModel.query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search free music (provided by Jamendo API)")
     }
     .tint(.orange)
     .onAppear {

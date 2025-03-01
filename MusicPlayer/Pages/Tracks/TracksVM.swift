@@ -47,7 +47,6 @@ class TracksVM: TracksVMProtocol {
   @Published var currentTrack: Track?
   
   var player: AVPlayer?
-  var timer: Timer?
   var trackQueue: [Track] = []
   var currentTrackIndex: Int = 0
   
@@ -92,6 +91,22 @@ class TracksVM: TracksVMProtocol {
         if let audio = track?.audio, let url = URL(string: audio) {
           self?.player = AVPlayer(url: url)
           self?.playPauseTrack()
+        }
+      }
+      .store(in: &cancellables)
+    
+    Timer.publish(every: 1, on: .main, in: .default)
+      .autoconnect()
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] _ in
+        guard let self else { return }
+        
+        if let currentTime = self.player?.currentTime() {
+          self.currentTime = CMTimeGetSeconds(currentTime)
+        }
+        
+        if let currentTrack = self.currentTrack, self.currentTime >= Double(currentTrack.duration - 1) {
+          self.finishTrack()
         }
       }
       .store(in: &cancellables)
@@ -152,17 +167,6 @@ class TracksVM: TracksVMProtocol {
     } else {
       self.player?.play()
       self.isPlaying = true
-      
-      self.timer?.invalidate()
-      self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-        if let currentTime = self.player?.currentTime() {
-          self.currentTime = CMTimeGetSeconds(currentTime)
-        }
-        
-        if let currentTrack = self.currentTrack, self.currentTime >= Double(currentTrack.duration - 1) {
-          self.finishTrack()
-        }
-      }
     }
   }
   
