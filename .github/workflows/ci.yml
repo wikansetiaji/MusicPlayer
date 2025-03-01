@@ -1,0 +1,52 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Trigger on pushes to the main branch
+  pull_request:
+    branches:
+      - main  # Trigger on pull requests to the main branch
+
+jobs:
+  build-and-test:
+    runs-on: macos-latest  # Use macOS runner for Xcode builds
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Xcode
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app  # Replace with your Xcode version
+
+      # Step 3: Run unit tests
+      - name: Run unit tests
+        run: |
+          xcodebuild test \
+            -project MusicPlayer.xcodeproj \
+            -scheme MusicPlayer \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.2'
+
+      # Step 4: Build the .app for simulators
+      - name: Build .app for simulator
+        run: |
+          xcodebuild build \
+            -project MusicPlayer.xcodeproj \
+            -scheme MusicPlayer \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.2' \
+            -derivedDataPath Build
+
+      # Step 5: Archive the .app as an artifact
+      - name: Archive .app
+        run: |
+          cd Build/Build/Products/Debug-iphonesimulator
+          zip -r MusicPlayer.app.zip MusicPlayer.app
+
+      # Step 6: Upload the .app as a build artifact
+      - name: Upload .app artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: MusicPlayer-Simulator
+          path: Build/Build/Products/Debug-iphonesimulator/MusicPlayer.app.zip
