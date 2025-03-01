@@ -26,7 +26,11 @@ jobs:
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode_16.2.app
 
-      # Step 3: Run unit tests
+      # Step 3: Boot the iPhone 15 Simulator
+      - name: Boot iPhone 15 Simulator
+        run: xcrun simctl boot 646DB559-041F-448B-8333-0E547C95D3A1
+
+      # Step 4: Run unit tests
       - name: Run unit tests
         run: |
           xcodebuild test \
@@ -34,22 +38,22 @@ jobs:
             -scheme MusicPlayer \
             -destination "platform=iOS Simulator,name=iPhone 15,OS=17.4"
 
-      # Step 4: Build the .app for simulators
+      # Step 5: Build the .app for simulators
       - name: Build .app for simulator
         run: |
           xcodebuild build \
             -project MusicPlayer.xcodeproj \
             -scheme MusicPlayer \
-            -destination "platform=iOS Simulator,name=iPhone 15,OS=17.4"
+            -destination "platform=iOS Simulator,name=iPhone 15,OS=17.4" \
             -derivedDataPath Build
 
-      # Step 5: Archive the .app as an artifact
+      # Step 6: Archive the .app as an artifact
       - name: Archive .app
         run: |
           cd Build/Build/Products/Debug-iphonesimulator
           zip -r MusicPlayer.app.zip MusicPlayer.app
 
-      # Step 6: Upload the .app as a build artifact
+      # Step 7: Upload the .app as a build artifact
       - name: Upload .app artifact
         uses: actions/upload-artifact@v4
         with:
