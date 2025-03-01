@@ -3,7 +3,7 @@ name: Build & Upload
 on:
   push:
     tags:
-      - 'build/v*'
+      - 'build/v*/*'
 
 jobs:
   build-and-upload:
