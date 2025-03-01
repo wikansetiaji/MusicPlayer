@@ -119,3 +119,7 @@ struct MusicSlider: UIViewRepresentable {
     }
   }
 }
+
+#Preview {
+  TrackPlayerView(trackPlayer: MockTrackPlayer())
+}

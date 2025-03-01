@@ -86,5 +86,5 @@ struct TracksPage<Model, PlayerTool>: View where Model: TracksVMProtocol, Player
 }
 
 #Preview {
-  TracksPage(viewModel: MockTracksVM(repository: MusicRepository()), trackPlayer: TrackPlayer.shared)
+  TracksPage(viewModel: MockTracksVM(repository: MusicRepository()), trackPlayer: MockTrackPlayer())
 }
