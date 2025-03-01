@@ -14,19 +14,11 @@
 			remoteGlobalIDString = 7A6020642D71EDBC004E54A4;
 			remoteInfo = MusicPlayer;
 		};
-		7A6020812D71EDBD004E54A4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7A60205D2D71EDBC004E54A4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7A6020642D71EDBC004E54A4;
-			remoteInfo = MusicPlayer;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		7A6020652D71EDBC004E54A4 /* MusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A6020762D71EDBD004E54A4 /* MusicPlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusicPlayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7A6020802D71EDBD004E54A4 /* MusicPlayerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusicPlayerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -38,11 +30,6 @@
 		7A6020792D71EDBD004E54A4 /* MusicPlayerTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = MusicPlayerTests;
-			sourceTree = "<group>";
-		};
-		7A6020832D71EDBD004E54A4 /* MusicPlayerUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MusicPlayerUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -62,13 +49,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7A60207D2D71EDBD004E54A4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -77,7 +57,6 @@
 			children = (
 				7A6020672D71EDBC004E54A4 /* MusicPlayer */,
 				7A6020792D71EDBD004E54A4 /* MusicPlayerTests */,
-				7A6020832D71EDBD004E54A4 /* MusicPlayerUITests */,
 				7A6020662D71EDBC004E54A4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -87,7 +66,6 @@
 			children = (
 				7A6020652D71EDBC004E54A4 /* MusicPlayer.app */,
 				7A6020762D71EDBD004E54A4 /* MusicPlayerTests.xctest */,
-				7A6020802D71EDBD004E54A4 /* MusicPlayerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,29 +118,6 @@
 			productReference = 7A6020762D71EDBD004E54A4 /* MusicPlayerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		7A60207F2D71EDBD004E54A4 /* MusicPlayerUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7A6020902D71EDBD004E54A4 /* Build configuration list for PBXNativeTarget "MusicPlayerUITests" */;
-			buildPhases = (
-				7A60207C2D71EDBD004E54A4 /* Sources */,
-				7A60207D2D71EDBD004E54A4 /* Frameworks */,
-				7A60207E2D71EDBD004E54A4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				7A6020822D71EDBD004E54A4 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				7A6020832D71EDBD004E54A4 /* MusicPlayerUITests */,
-			);
-			name = MusicPlayerUITests;
-			packageProductDependencies = (
-			);
-			productName = MusicPlayerUITests;
-			productReference = 7A6020802D71EDBD004E54A4 /* MusicPlayerUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -177,10 +132,6 @@
 						CreatedOnToolsVersion = 16.2;
 					};
 					7A6020752D71EDBD004E54A4 = {
-						CreatedOnToolsVersion = 16.2;
-						TestTargetID = 7A6020642D71EDBC004E54A4;
-					};
-					7A60207F2D71EDBD004E54A4 = {
 						CreatedOnToolsVersion = 16.2;
 						TestTargetID = 7A6020642D71EDBC004E54A4;
 					};
@@ -202,7 +153,6 @@
 			targets = (
 				7A6020642D71EDBC004E54A4 /* MusicPlayer */,
 				7A6020752D71EDBD004E54A4 /* MusicPlayerTests */,
-				7A60207F2D71EDBD004E54A4 /* MusicPlayerUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -216,13 +166,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		7A6020742D71EDBD004E54A4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7A60207E2D71EDBD004E54A4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -246,13 +189,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7A60207C2D71EDBD004E54A4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -260,11 +196,6 @@
 			isa = PBXTargetDependency;
 			target = 7A6020642D71EDBC004E54A4 /* MusicPlayer */;
 			targetProxy = 7A6020772D71EDBD004E54A4 /* PBXContainerItemProxy */;
-		};
-		7A6020822D71EDBD004E54A4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7A6020642D71EDBC004E54A4 /* MusicPlayer */;
-			targetProxy = 7A6020812D71EDBD004E54A4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -392,6 +323,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MusicPlayer/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -430,6 +362,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MusicPlayer/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -472,10 +405,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = wikan.MusicPlayerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MusicPlayer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MusicPlayer";
 				XROS_DEPLOYMENT_TARGET = 2.2;
 			};
@@ -494,53 +428,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = wikan.MusicPlayerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MusicPlayer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MusicPlayer";
-				XROS_DEPLOYMENT_TARGET = 2.2;
-			};
-			name = Release;
-		};
-		7A6020912D71EDBD004E54A4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				MACOSX_DEPLOYMENT_TARGET = 15.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = wikan.MusicPlayerUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = MusicPlayer;
-				XROS_DEPLOYMENT_TARGET = 2.2;
-			};
-			name = Debug;
-		};
-		7A6020922D71EDBD004E54A4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				MACOSX_DEPLOYMENT_TARGET = 15.2;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = wikan.MusicPlayerUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = MusicPlayer;
 				XROS_DEPLOYMENT_TARGET = 2.2;
 			};
 			name = Release;
@@ -571,15 +464,6 @@
 			buildConfigurations = (
 				7A60208E2D71EDBD004E54A4 /* Debug */,
 				7A60208F2D71EDBD004E54A4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7A6020902D71EDBD004E54A4 /* Build configuration list for PBXNativeTarget "MusicPlayerUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7A6020912D71EDBD004E54A4 /* Debug */,
-				7A6020922D71EDBD004E54A4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

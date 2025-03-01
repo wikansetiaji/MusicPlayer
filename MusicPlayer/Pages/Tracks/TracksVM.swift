@@ -46,7 +46,7 @@ class TracksVM: TracksVMProtocol {
   
   private func setupSubscribings() {
     self.$query
-      .debounce(for: .seconds(0.5), scheduler: RunLoop.main) // Adjust the delay as needed
+      .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
       .sink { [weak self] _ in
         self?.tracks = []
         self?.offset = 0
