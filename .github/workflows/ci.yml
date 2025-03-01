@@ -28,7 +28,7 @@ jobs:
           xcodebuild test \
             -project MusicPlayer.xcodeproj \
             -scheme MusicPlayer \
-            -destination "platform=iOS Simulator,name=iPhone 15"
+            -destination "platform=iOS Simulator,name=iPhone 16"
 
       # Step 5: Build the .app for simulators
       - name: Build .app for simulator
@@ -36,7 +36,7 @@ jobs:
           xcodebuild build \
             -project MusicPlayer.xcodeproj \
             -scheme MusicPlayer \
-            -destination "platform=iOS Simulator,name=iPhone 15" \
+            -destination "platform=iOS Simulator,name=iPhone 16" \
             -derivedDataPath Build
 
       # Step 6: Archive the .app as an artifact
