@@ -22,10 +22,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Step 3: Boot the iPhone 15 Simulator
-      - name: Boot iPhone 15 Simulator
-        run: xcrun simctl boot 646DB559-041F-448B-8333-0E547C95D3A1
-
       # Step 4: Run unit tests
       - name: Run unit tests
         run: |
