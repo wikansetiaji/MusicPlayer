@@ -27,7 +27,7 @@ class TrackPlayer: TrackPlayerProtocol {
   @Published var isPlaying: Bool = false
   @Published var currentTrack: Track?
   
-  var player: AVPlayer?
+  var player: AVPlayerProtocol?
   var trackQueue: [Track] = []
   var currentTrackIndex: Int = 0
   
@@ -39,11 +39,13 @@ class TrackPlayer: TrackPlayerProtocol {
     return self.currentTrackIndex - 1 >= 0
   }
   
+  private let playerFactory: (URL) -> AVPlayerProtocol
   private var cancellables: Set<AnyCancellable> = []
   
   static let shared: TrackPlayer = TrackPlayer()
   
-  private init() {
+  init(playerFactory: @escaping (_ url: URL) -> AVPlayerProtocol = { url in AVPlayer(url: url) }) {
+    self.playerFactory = playerFactory
     self.setupSubscribings()
   }
   
@@ -51,7 +53,7 @@ class TrackPlayer: TrackPlayerProtocol {
     self.$currentTrack
       .sink { [weak self] track in
         if let audio = track?.audio, let url = URL(string: audio) {
-          self?.player = AVPlayer(url: url)
+          self?.player = self?.playerFactory(url)
           self?.playPauseTrack()
         }
       }

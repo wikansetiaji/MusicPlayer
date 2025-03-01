@@ -76,6 +76,7 @@ class TracksVM: TracksVMProtocol {
           self?.error = error
           self?.tracks = []
         case .finished:
+          self?.error = nil
           break
         }
       } receiveValue: { [weak self] tracksResponse in

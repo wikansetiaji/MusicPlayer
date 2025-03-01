@@ -5,7 +5,7 @@
 //  Created by Wikan Setiaji on 28/02/25.
 //
 
-enum APIError: Error {
+enum APIError: Error, Equatable {
   case request(message: String)
   case network(message: String)
   case status(message: String)
