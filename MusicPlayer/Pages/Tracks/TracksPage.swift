@@ -78,6 +78,7 @@ struct TracksPage<Model, PlayerTool>: View where Model: TracksVMProtocol, Player
       .navigationBarTitleDisplayMode(.automatic)
       .searchable(text: $viewModel.query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search free music (provided by Jamendo API)")
     }
+    .navigationViewStyle(StackNavigationViewStyle())
     .tint(.orange)
     .onAppear {
       self.viewModel.getTracks()
